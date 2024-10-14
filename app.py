@@ -720,4 +720,4 @@ def stacked_bar():
     return render_template('stackedbar.html', bmi_classes=bmi_classes, outcome_0_counts=outcome_0_counts, outcome_1_counts=outcome_1_counts)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
