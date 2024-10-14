@@ -1,0 +1,413 @@
+<!-- templates/dashboard.html -->
+{% extends "base.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+{% block content %}
+    <div class="container">
+        <!-- Row 1: Charts 1, 2, 3 -->
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Chart 1 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes by Age Group</h2>
+                <canvas id="ageGroupChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 2 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes Prevalence</h2>
+                <canvas id="prevalenceChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 9 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BMI by Diabetic Status</h2>
+                <canvas id="stackedBarChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Row 2: Charts 4, 5, 6 -->
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Chart 5 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skin Thickness By Age Group</h2>
+                <canvas id="averageSkinThicknessChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 8 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pregnancies by Diabetic Status</h2>
+                <canvas id="pregnanciesPieChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 6 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Glucose Levels By Age Group</h2>
+                <canvas id="averageGlucoseChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Row 3: Charts 7, 8, 9 -->
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Chart 4 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blood Pressure By Age Group</h2>
+                <canvas id="averageBloodPressureChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 7 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diabetes Pedigree Function</h2>
+                <canvas id="averagePedigreeChart"></canvas>
+            </div>
+            <div class="col-md-4">
+                <!-- Chart 3 -->
+                <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insulin Levels By Age Group</h2>
+                <canvas id="averageInsulinChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript to handle the charts -->
+    <script>
+        // Chart 1: Diabetes by Age Group
+        const ageGroupChartCtx = document.getElementById('ageGroupChart').getContext('2d');
+        const ageGroups = {{ age_groups | safe }};
+        const diabetesCounts = {{ diabetes_counts | safe }};
+        new Chart(ageGroupChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ageGroups,
+                datasets: [{
+                    label: 'Diabetes Cases',
+                    data: diabetesCounts,
+                    backgroundColor: 'rgba(0, 38, 177, 0.2)',
+                    borderColor: 'rgba(0, 38, 177, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Chart 2: Diabetes Prevalence
+        const prevalenceChartCtx = document.getElementById('prevalenceChart').getContext('2d');
+        const diabetesPrevalence = {{ diabetes_prevalence | safe }};
+        new Chart(prevalenceChartCtx, {
+            type: 'line',
+            data: {
+                labels: ageGroups,
+                datasets: [{
+                    label: 'Prevalence (%)',
+                    data: diabetesPrevalence,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Prevalence (%)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Age Group' }
+                    }
+                }
+            }
+        });
+
+        // Chart 3: Average Insulin Levels
+        const insulinChartCtx = document.getElementById('averageInsulinChart').getContext('2d');
+        const avgInsulin = {{ avg_insulin | safe }};  // Ensure this is correctly parsed by the server-side template engine
+
+        new Chart(insulinChartCtx, {
+            type: 'bar',  // Bar chart type
+            data: {
+                labels: ageGroups,  // Ensure ageGroups is defined and passed correctly
+                datasets: [{
+                    label: 'Insulin',
+                    data: avgInsulin,  // Ensure avgInsulin is a valid array
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',  // Light Blue background color
+                    borderColor: 'rgba(54, 162, 235, 1)',  // Blue border color
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',  // Makes the bars horizontal
+                elements: {
+                    bar: {
+                        borderWidth: 2,  // Set the border width of bars
+                    }
+                },
+                responsive: true,  // Ensures the chart is responsive
+                plugins: {
+                    legend: {
+                        position: 'right',  // Positions the legend on the right
+                    },
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true  // Ensures the X-axis starts at 0
+                    },
+                    y: {
+                        beginAtZero: true  // Ensures the Y-axis starts at 0
+                    }
+                }
+            }
+        });
+
+
+        // Chart 4: Average Blood Pressure
+        const bloodPressureChartCtx = document.getElementById('averageBloodPressureChart').getContext('2d');
+        const avgBloodPressure = {{ avg_blood_pressure | safe }};
+        new Chart(bloodPressureChartCtx, {
+            type: 'line',
+            data: {
+                labels: ageGroups,
+                datasets: [{
+                    label: 'Average Blood Pressure',
+                    data: avgBloodPressure,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Blood Pressure' } },
+                    x: { title: { display: true, text: 'Age Group' } }
+                }
+            }
+        });
+
+        // Chart 5: Average Skin Thickness
+        const skinThicknessChartCtx = document.getElementById('averageSkinThicknessChart').getContext('2d');
+        const avgSkinThickness = {{ avg_skin_thickness | safe }};
+        new Chart(skinThicknessChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ageGroups,
+                datasets: [{
+                    label: 'Skin Thickness',
+                    data: avgSkinThickness,
+                    backgroundColor: [
+                        '#FF6347',   // Bright Red (Tomato)
+                        '#1E90FF',   // Bright Blue (DodgerBlue)
+                        '#32CD32',   // Bright Green (LimeGreen)
+                        '#9400D3',   // Bright Purple (DarkViolet)
+                        '#DAA520',
+                        '#FF4500'    // Bright Brown/Golden (GoldenRod)
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    datalabels: {  // Plugin to display values
+                        color: '#000',
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        formatter: function(value, context) {
+                            return value;  // Display the actual value
+                        }
+                    },
+                }
+            },
+            plugins: [ChartDataLabels]  // Activate the plugin
+        });
+
+
+        // Chart 6: Average Glucose Levels
+        const glucoseChartCtx = document.getElementById('averageGlucoseChart').getContext('2d');
+        const avgGlucose = {{ avg_glucose | safe }};
+        new Chart(glucoseChartCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ageGroups,  // Age groups on the chart
+                datasets: [{
+                    label: 'Average Glucose',
+                    data: avgGlucose,  // Average glucose levels corresponding to age groups
+                    backgroundColor: [
+                        'rgba(224, 0, 0, 0.6)',       // Darker Red
+                        'rgba(0, 51, 225, 0.6)',      // Darker Blue
+                        'rgba(204, 153, 0, 0.6)',     // Darker Yellow
+                        'rgba(0, 102, 102, 0.6)',     // Darker Teal
+                        'rgba(102, 51, 153, 0.6)',    // Darker Purple
+                        'rgba(204, 102, 0, 0.6)'      // Darker Orange
+                    ],
+                    borderColor: [
+                        'rgba(224, 0, 0, 0.6)',       // Darker Red
+                        'rgba(0, 51, 225, 0.6)',      // Darker Blue
+                        'rgba(204, 153, 0, 0.6)',     // Darker Yellow
+                        'rgba(0, 102, 102, 0.6)',     // Darker Teal
+                        'rgba(102, 51, 153, 0.6)',    // Darker Purple
+                        'rgba(204, 102, 0, 0.6)'       // Darker Orange
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    datalabels: {  // Plugin to display values
+                        color: '#000',
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        formatter: function(value, context) {
+                            return value;  // Display the actual value
+                        }
+                    },
+                }
+            },
+            plugins: [ChartDataLabels] // Activate the plugin
+        });
+
+        // Chart 7: Diabetes Pedigree Function
+        const pedigreeChartCtx = document.getElementById('averagePedigreeChart').getContext('2d');
+        const avgPedigree = {{ avg_pedigree | safe }};
+
+        // Bubble chart requires data in the format { x, y, r }
+        const bubbleData = ageGroups.map((ageGroup, index) => {
+            return {
+                x: index,  // Use the index of the age group as the x value
+                y: avgPedigree[index],  // Corresponding pedigree value as y
+                r: avgPedigree[index] * 15  // Radius of the bubble; adjust multiplier as needed
+            };
+        });
+
+        new Chart(pedigreeChartCtx, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Average Diabetes Pedigree Function',
+                    data: bubbleData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Average Diabetes Pedigree Function'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Age Group'
+                        },
+                        ticks: {
+                            callback: function(value, index) {
+                                return ageGroups[index];  // Display age groups on x-axis
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 8: Pregnancies by Diabetic Status
+        const pregnanciesPieCtx = document.getElementById('pregnanciesPieChart').getContext('2d');
+        const chartOutcomes = {{ outcomes | safe }};
+        const pregnanciesCounts = {{ pregnancies_counts | safe }};
+
+        new Chart(pregnanciesPieCtx, {
+            type: 'pie',
+            data: {
+                labels: chartOutcomes.map(o => o == 1 ? 'Positive' : 'Negative'),  // Outcome (0 or 1) as the legend
+                datasets: [{
+                    data: pregnanciesCounts,  // Count of pregnancies where Pregnancies > 0
+                    backgroundColor: [
+                        'rgba(252, 248, 3, 0.7)',  
+                        'rgba(252, 107, 3, 0.7)',
+                    ],
+                    borderColor: [
+                        'rgba(252, 248, 3, 0.7)',  
+                        'rgba(252, 107, 3, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    datalabels: {  // Plugin to display values
+                        color: '#000',
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        formatter: function(value, context) {
+                            return value;  // Display the actual value
+                        }
+                    },
+                }
+            },
+            plugins: [ChartDataLabels]  // Activate the plugin
+        });
+
+        // Chart 9: Stacked BMI by Diabetic Status
+        const stackedBarCtx = document.getElementById('stackedBarChart').getContext('2d');
+        const bmiClasses = {{ bmi_classes | safe }};
+        const outcome0Counts = {{ outcome_0_counts | safe }};
+        const outcome1Counts = {{ outcome_1_counts | safe }};
+
+        new Chart(stackedBarCtx, {
+            type: 'bar',
+            data: {
+                labels: bmiClasses,  // BMIClass on the x-axis
+                datasets: [
+                    {
+                        label: 'Negative',
+                        data: outcome0Counts,  // Count of Outcome 0
+                        backgroundColor: 'rgba(0, 202, 0, 0.2)',  // Dark Green
+                        borderColor: 'rgba(0, 202, 0, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Positive',
+                        data: outcome1Counts,  // Count of Outcome 1
+                        backgroundColor: 'rgba(253, 0, 0, 0.2)',  // Dark Red
+                        borderColor: 'rgba(253, 0, 0, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                },
+                scales: {
+                    x: {
+                        stacked: true,  // Stack bars on the x-axis
+                    },
+                    y: {
+                        stacked: true,  // Stack bars on the y-axis
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

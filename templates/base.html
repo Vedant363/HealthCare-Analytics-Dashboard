@@ -1,0 +1,217 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(20deg, #ff7300, #ffcc00, #ff0000); /* Gradient from orange to yellow */
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* background-color: #0056b3; */
+            padding: 10px;
+        }
+
+        .navbar-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(29, 20, 1);
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: #fcb500;
+            color: black;
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+
+        .content {
+            padding: 20px;
+            background: linear-gradient(20deg,#dd00ff, #0062ff, #00ffd9, #33ff00);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Row styling */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        /* Column styling */
+        .col-md-4 {
+            flex: 0 0 calc(33.333% - 20px);
+            margin: 10px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Chart title styling */
+        h2 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Canvas styling */
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 300px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fefcfc; /* Dark background */
+            color: #ff8c00; /* Orange text */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            flex: 1; /* Makes all cards take equal space */
+            margin: 10px; /* Add spacing between cards */
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin: 0 0 10px;
+        }
+
+        .card p {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Footer styling */
+        footer {
+            background: linear-gradient(20deg, #ff7300, #ffcc00, #ff0000); /* Gradient from orange to yellow */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .patients{
+            background-color: white;
+            color: black;
+            padding: 5px;
+            border-radius: 10px;
+            margin: 10px;
+            position: absolute;
+            top: 5;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(10, 0, 0, 0.2);
+        }
+
+        .patients p{
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .col-md-4 {
+                flex: 0 0 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .col-md-4 {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="navbar-title">HealthCare Analytics Dashboard</div>
+            <div>
+                <a href="/add">Add Data</a>
+                <a href="/update">Update Data</a>
+                <a href="/delete">Delete Data</a>
+                <a href="/view">View Dataset</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="card-container">
+        <div class="card">
+            <h2>Total Patients</h2>
+            <p>{{ count }}</p>
+        </div>
+        <div class="card">
+            <h2>Diabetes Patients</h2>
+            <p>{{ total_diabetes_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Pregnancies</h2>
+            <p>{{ total_pregnancies_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Average BMI</h2>
+            <p>{{ average_bmi_count }}</p>
+        </div>
+        <div class="card">
+            <h2>Average Glucose</h2>
+            <p>{{ average_glucose_count }}</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- This block will be replaced by specific page content -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p style="color: black; font-size: larger; font-weight: 700;">© 2024 Vedant Ghumade and Sahil Dhumane</p>
+    </footer>
+</body>
+</html>

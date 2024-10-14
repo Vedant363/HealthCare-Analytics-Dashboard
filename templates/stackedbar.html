@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacked Bar Chart (BMIClass vs Outcome)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chart-container {
+            width: 25%;
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="stackedBarChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('stackedBarChart').getContext('2d');
+        const bmiClasses = {{ bmi_classes | safe }};
+        const outcome0Counts = {{ outcome_0_counts | safe }};
+        const outcome1Counts = {{ outcome_1_counts | safe }};
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: bmiClasses,  // BMIClass on the x-axis
+                datasets: [
+                    {
+                        label: 'Negative',
+                        data: outcome0Counts,  // Count of Outcome 0
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Positive',
+                        data: outcome1Counts,  // Count of Outcome 1
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                },
+                scales: {
+                    x: {
+                        stacked: true,  // Stack bars on the x-axis
+                    },
+                    y: {
+                        stacked: true,  // Stack bars on the y-axis
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

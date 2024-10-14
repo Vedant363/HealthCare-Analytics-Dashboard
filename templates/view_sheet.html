@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheet Data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            background-size: cover; /* Ensures the gradient covers the entire body */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 2px solid #ddd; /* Thicker border for clearer separation */
+        }
+        th {
+            background-color: #fc6900;
+            color: white;
+            border: 2px solid #f70303; /* Same color border for the header */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        th:first-child, td:first-child {
+            border-left: 2px solid #ddd;
+        }
+        th:last-child, td:last-child {
+            border-right: 2px solid #ddd;
+        }
+        .styled-button {
+            background-color: #ffffff; /* Green background */
+            border: 1px solid black;              /* Remove borders */
+            color: black;               /* White text */
+            padding: 10px 20px;         /* Add some padding */
+            text-align: center;         /* Center the text */
+            text-decoration: none;      /* Remove underline from text */
+            display: inline-block;      /* Set display */
+            font-size: 16px;            /* Font size */
+            margin: 1px 2px;           /* Margin for space */
+            cursor: pointer;            /* Pointer on hover */
+            border-radius: 8px;         /* Rounded corners */
+            box-shadow: #333;
+            }
+
+            .styled-button a {
+            text-decoration: none;      /* Remove underline */
+            color: black;               /* Keep text color white */
+            display: block;             /* Ensures anchor fills button */
+            width: 100%;                /* Full width anchor */
+            height: 100%;               /* Full height anchor */
+            }
+
+            .styled-button:hover {
+            background-color: #eb7201;  /* Darker green on hover */
+            }
+
+    </style>
+</head>
+<body>
+    <button class="styled-button">
+        <a href="/"> Go Back</a>
+      </button>      
+    <h1>Dataset (Read-Only)</h1>
+    <table>
+        <thead>
+            <tr>
+                {% if sheet_data %}
+                    {% for col in sheet_data[0] %}
+                        <th>{{ col }}</th> <!-- Headers from the first row -->
+                    {% endfor %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in sheet_data[1:] %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td> <!-- Data rows -->
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

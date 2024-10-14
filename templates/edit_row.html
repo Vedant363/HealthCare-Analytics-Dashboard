@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Row {{ row_number }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(20deg, #ff7300, #ffcc00, #ff0000);
+            background-size: cover; /* Ensures the gradient covers the entire body */
+            margin: 0;
+            padding: 20px;
+            height: 100%; /* Make sure body takes the full height of the viewport */
+        }
+
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        p {
+            margin-bottom: 0px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="submit"], select {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #f1fe01;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Data for Row {{ row_number }}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <p>
+            {{ form.pregnancies.label }}<br>
+            {{ form.pregnancies() }}<br>
+            {% for error in form.pregnancies.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.glucose.label }}<br>
+            {{ form.glucose() }}<br>
+            {% for error in form.glucose.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        
+        <p>
+            {{ form.blood_pressure.label }}<br>
+            {{ form.blood_pressure() }}<br>
+            {% for error in form.blood_pressure.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.skin_thickness.label }}<br>
+            {{ form.skin_thickness() }}<br>
+            {% for error in form.skin_thickness.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.insulin.label }}<br>
+            {{ form.insulin() }}<br>
+            {% for error in form.insulin.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.bmi.label }}<br>
+            {{ form.bmi() }}<br>
+            {% for error in form.bmi.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.diabetes_pedigree_function.label }}<br>
+            {{ form.diabetes_pedigree_function() }}<br>
+            {% for error in form.diabetes_pedigree_function.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.age.label }}<br>
+            {{ form.age() }}<br>
+            {% for error in form.age.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.outcome.label }}<br>
+            {{ form.outcome() }}<br>
+            {% for error in form.outcome.errors %}
+                <span class="error">{{ error }}</span><br>
+            {% endfor %}
+        </p>
+        
+        <p>
+            <input type="submit" value="Update Data">
+        </p>
+    </form>
+</body>
+</html>

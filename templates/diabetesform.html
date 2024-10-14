@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Data Entry Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(20deg, #ff7300, #ffcc00, #ff0000); /* Gradient from orange to yellow */
+            margin: 0;
+            padding: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 50px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        span {
+            color: red;
+            font-size: 12px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #fed003;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #fc6602;
+        }
+
+        .form-container {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Add New Entry to Dataset</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-container">
+                <label>{{ form.pregnancies.label }}</label><br>
+                {{ form.pregnancies(size=32) }}<br>
+                {% for error in form.pregnancies.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.glucose.label }}</label><br>
+                {{ form.glucose(size=32) }}<br>
+                {% for error in form.glucose.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.blood_pressure.label }}</label><br>
+                {{ form.blood_pressure(size=32) }}<br>
+                {% for error in form.blood_pressure.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.skin_thickness.label }}</label><br>
+                {{ form.skin_thickness(size=32) }}<br>
+                {% for error in form.skin_thickness.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.insulin.label }}</label><br>
+                {{ form.insulin(size=32) }}<br>
+                {% for error in form.insulin.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.bmi.label }}</label><br>
+                {{ form.bmi(size=32) }}<br>
+                {% for error in form.bmi.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.diabetes_pedigree_function.label }}</label><br>
+                {{ form.diabetes_pedigree_function(size=32) }}<br>
+                {% for error in form.diabetes_pedigree_function.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.age.label }}</label><br>
+                {{ form.age(size=32) }}<br>
+                {% for error in form.age.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.outcome.label }}</label><br>
+                {{ form.outcome() }}<br>
+                {% for error in form.outcome.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+
+</html>

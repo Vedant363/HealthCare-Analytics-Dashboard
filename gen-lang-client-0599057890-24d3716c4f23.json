@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "gen-lang-client-0599057890",
+  "private_key_id": "24d3716c4f236c0bc5513f3479e7c59a568ca385",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDXb9fVnZ2VLjBg\nTKPHS9X+uCG+/GgL3soT9/EZqLkM7cHWReDB/FftiiNDfL20kgsoxrVr62MsvdWL\ndMTuThgAzU+U4jPTsxb8WeUQr8WqJgyMu+QYRizxbn1z5EmxGxKI1vOlyW7XxAer\nLkl7QshhnzBEf5eQFwwO9yA1OXZhwQpvvPBxCT+6ylaf2upPS+sCuvx8v0r7wR1J\ny75GJlC9ICY1X5quLdi+TB4k0yeDDq7euip8uw+VzPNrfcLgipkmHOamXRq7WPPQ\npLlYqDKVHYLhP8wI3D9J+ndqPXU0cpp6TknQ5OW+k1SBaM4woe3aK79SqeqXuavH\nkQd6Ui7BAgMBAAECggEAC5qOp5xAoDKiRemS2mRGCjJ3lNkfrzX92z37+pET0zOy\nK1JNCmhxrE3IBkr0z9dG6m3A2Kd6H8SOI4peT2SdloYjHsaL7+o3Qc/YuUGdFgP3\nIem+iHqCfLLiEcjZGZo28RpnegWZEV48YywQJqdgnMt4IX8K1jwQ458hbmR3hnPH\n7yesO7vWE4/YhEHEH//GbabvUgnIY8SpyyFfGmkbMfpnGTmb6C/KMoEdxNFJ9KGh\neoXqCgT6A7MoeC5kfY0va2PstaVYK1M17CQbsN9NVDkDywRTgVo5foZZlD2lODTJ\nlCHTbMZb8QDs13jE0rdLWA858WEC50C8qYtVVzp1fQKBgQD0Y8EtYeAacM6Upyrw\nNDTu1zB6qkz6gKY1W1lQ7yLJXN57LielwH2wayl6bgd4NHfjIIsTUiyAdHThbYxM\nluyM//cLjay8xB8q5D/M/Isy7Vs9zK19MvB2aM/y+JP1SCTksLFyJ4xqpMo+Qhb8\nyKZkpklG2Q0uNeGGH6XEvX+GNQKBgQDhq/el+OKVHukSQME1scT/PtkeMhKZ9HyP\nSX5e07IewvWOQ3nlDHW37diqFrosw/FsaAdFWBBax7FxSvFAC2FDY01U0KhaxkaA\nMAaVRfO01wyTE5V0fgfcuH30GsmZm2En4992dI77++XH7InpR4g4WBlGC7sv53nQ\nHm8UWsxn3QKBgQCQUTwpfYvmcUk8tX8AvAOqKz9AoMK2hzQffCNBTQZA3Ouw2C+n\njQVsIcwrtUAJ9wn5ASW/sh3/eUXwPU3FiLaGCT2s/+vKyRIStRkMBvJ4j3v7AZxN\nu8AOXJS4SZyuEv1eYw1WeQ5Nh6S6oTKL8j14YE4TXWeQK1dTaertRG5DJQKBgQCS\nSJjle2nU5A6NCHC1z6A1HJY9HpQ0O+kqMKe77Fn/2ry2FUNEmEkOixzxVH4mWnV6\nogxkhOtFDUEWgU/VBgtsVUhhfEhFX1V/7qG1zXxmcyfxhrZQpwmNqAHtZBfefHwE\nEZBfBrtQ2D5g1BGpp/bDH0hywVP7f37Uy4WRmjH5+QKBgQCV8eskHftTCxYA5V6Z\n4if2XMwHXH7iwLP1nLUu7gbZAHHPgAqRyTZYD6bAvSJYdeiZquq++1zm/lh2QVD7\n2uBvYLby5LCr324mD3CSPMThcWAwpOA5Jd2Y/U9C1STivvpULks7Zu5T/WqCpPbl\nN1fdHWwAuDg6q8++mGjdTx9BSQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "flask-sheets-service-account@gen-lang-client-0599057890.iam.gserviceaccount.com",
+  "client_id": "117685931273746106370",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flask-sheets-service-account%40gen-lang-client-0599057890.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

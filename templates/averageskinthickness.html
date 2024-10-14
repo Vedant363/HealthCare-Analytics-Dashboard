@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Skin Thickness by Age Group</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;  /* Center horizontally */
+            align-items: center;
+            height: 100vh;            /* Full viewport height */
+            margin: 0;                /* Remove default margin */
+            background-color: #f4f4f4; /* Optional background color */
+        }
+
+        .chart-container {
+            width: 20%; /* Adjust the width of the chart as needed */
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%; /* Ensure the chart fits within the container */
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="averageSkinThicknessChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('averageSkinThicknessChart').getContext('2d');
+        const ageGroups = {{ age_groups | safe }};
+        const avgSkinThickness = {{ avg_skin_thickness | safe }};
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ageGroups,  // Age groups on the x-axis
+                datasets: [{
+                    label: 'Average Skin Thickness',
+                    data: avgSkinThickness,  // Average skin thickness on the y-axis
+                    // backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    // borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Average Skin Thickness'
+                        }
+                    },
+                    responsive: true,
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Age Group'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

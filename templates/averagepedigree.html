@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Diabetes Pedigree Function by Age Group</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chart-container {
+            width: 25%;
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="averagePedigreeChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('averagePedigreeChart').getContext('2d');
+
+        // Replace this with your actual data
+        const ageGroups = {{ age_groups | safe }};
+        const avgPedigree = {{ avg_pedigree | safe }};
+
+        // Bubble chart requires data in the format { x, y, r }
+        const bubbleData = ageGroups.map((ageGroup, index) => {
+            return {
+                x: index,  // Use the index of the age group as the x value
+                y: avgPedigree[index],  // Corresponding pedigree value as y
+                r: avgPedigree[index] * 15  // Radius of the bubble; adjust multiplier as needed
+            };
+        });
+
+        new Chart(ctx, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Average Diabetes Pedigree Function',
+                    data: bubbleData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Average Diabetes Pedigree Function'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Age Group'
+                        },
+                        ticks: {
+                            callback: function(value, index) {
+                                return ageGroups[index];  // Display age groups on x-axis
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

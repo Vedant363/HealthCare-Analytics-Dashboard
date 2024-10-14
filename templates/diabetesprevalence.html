@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prevalence by Age Group</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;  /* Center horizontally */
+            /* align-items: center;      Center vertically */
+            height: 100vh;            /* Full viewport height */
+            margin: 0;                /* Remove default margin */
+            background-color: #f4f4f4; /* Optional background color */
+        }
+
+        .chart-container {
+            width: 25%; /* Adjust the width of the chart as needed */
+            padding: 20px;
+        }
+
+        canvas {
+            max-width: 100%; /* Ensure the chart fits within the container */
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="prevalenceChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('prevalenceChart').getContext('2d');
+        const ageGroups = {{ age_groups | safe }};
+        const diabetesPrevalence = {{ diabetes_prevalence | safe }};
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ageGroups,  // Age groups on the x-axis
+                datasets: [{
+                    label: 'Diabetes Prevalence (%)',
+                    data: diabetesPrevalence,  // Diabetes prevalence on the y-axis
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Prevalence (%)'
+                        }
+                    },
+                    responsive: true,
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Age Group'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
