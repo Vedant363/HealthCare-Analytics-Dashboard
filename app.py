@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm
 from collections import defaultdict
 from flask_wtf.csrf import CSRFProtect
 import os
+import base64
 from dotenv import load_dotenv
 
 app = Flask(__name__)
@@ -17,15 +18,20 @@ app.config['SECRET_KEY'] = 'vedant363'
 # Load environment variables from .env file
 load_dotenv()
 
-# Path to your service account key file from environment variable
-SERVICE_ACCOUNT_FILE = os.getenv('SERVICE_ACCOUNT_FILE')
+# Decode the Base64 encoded credentials
+encoded_credentials = os.getenv('ENCODED_CREDENTIALS')
+decoded_credentials = base64.b64decode(encoded_credentials)
+
+# Save the decoded credentials to a temporary file
+with open('temp_credentials.json', 'wb') as f:
+    f.write(decoded_credentials)
 
 # Define the scopes required for the Google Sheets API (read and write)
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # Use service account credentials to authenticate
 creds = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+    'temp_credentials.json', scopes=SCOPES)
 
 # The ID of the Google Sheet from the environment variable
 SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
