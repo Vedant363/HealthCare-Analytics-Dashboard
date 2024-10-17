@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(20deg, #ff7300, #ffcc00, #ff0000); /* Gradient from orange to yellow */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Center vertically and horizontally */
+            min-height: 100vh; /* Full viewport height */
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 20px; /* Center the image and add space below */
+            max-width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 300px; /* Restrict maximum height to avoid overflow */
+        }
+
+        .main-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px; /* Set a maximum width for the container */
+            width: 100%; /* Full width for smaller screens */
+            margin-top: 70px;
+        }
+
+        form {
+            margin: 20px 0; /* Margin for the form */
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        span {
+            color: red;
+            font-size: 12px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #fed003;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #fc6602;
+        }
+
+        .form-container {
+            margin: 10px 0; /* Adjusted margin for form containers */
+        }
+
+        h3{
+            color: blue;
+            /* font-family: Georgia, 'Times New Roman', Times, serif; */
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h3>Our Performance on Various Models</h3>
+        <img src="{{ url_for('static', filename='performance.png') }}" alt="Performance of various models on our dataset">
+        <h3>Diabetes Prediction using Logistic Regression</h3>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-container">
+                <label>{{ form.pregnancies.label }}</label><br>
+                {{ form.pregnancies(size=32) }}<br>
+                {% for error in form.pregnancies.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.glucose.label }}</label><br>
+                {{ form.glucose(size=32) }}<br>
+                {% for error in form.glucose.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.blood_pressure.label }}</label><br>
+                {{ form.blood_pressure(size=32) }}<br>
+                {% for error in form.blood_pressure.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.skin_thickness.label }}</label><br>
+                {{ form.skin_thickness(size=32) }}<br>
+                {% for error in form.skin_thickness.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.insulin.label }}</label><br>
+                {{ form.insulin(size=32) }}<br>
+                {% for error in form.insulin.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.bmi.label }}</label><br>
+                {{ form.bmi(size=32) }}<br>
+                {% for error in form.bmi.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.diabetes_pedigree_function.label }}</label><br>
+                {{ form.diabetes_pedigree_function(size=32) }}<br>
+                {% for error in form.diabetes_pedigree_function.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <div class="form-container">
+                <label>{{ form.age.label }}</label><br>
+                {{ form.age(size=32) }}<br>
+                {% for error in form.age.errors %}
+                    <span>{{ error }}</span><br>
+                {% endfor %}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

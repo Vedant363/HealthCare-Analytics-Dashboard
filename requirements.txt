@@ -16,8 +16,10 @@ gunicorn
 httplib2
 idna
 itsdangerous
+joblib
 Jinja2
 MarkupSafe
+numpy
 oauthlib
 pip
 proto-plus
@@ -29,6 +31,7 @@ python-dotenv
 requests
 requests-oauthlib
 rsa
+scikit-learn
 uritemplate
 urllib3
 Werkzeug

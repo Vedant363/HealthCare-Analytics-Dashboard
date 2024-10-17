@@ -9,6 +9,10 @@ from flask_wtf.csrf import CSRFProtect
 import os
 import base64
 from dotenv import load_dotenv
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import MinMaxScaler
+import joblib
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
@@ -142,6 +146,18 @@ class DiabetesForm(FlaskForm):
     age = IntegerField('Age', validators=[InputRequired(), NumberRange(min=20, max=120)])
     outcome = SelectField('Outcome', choices=[(0, 'Negative'), (1, 'Positive')], validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class PredictionForm(FlaskForm):
+    pregnancies = IntegerField('Pregnancies', validators=[InputRequired(), NumberRange(min=0, max=18)])
+    glucose = IntegerField('Glucose', validators=[InputRequired(), NumberRange(min=0, max=200)])
+    blood_pressure = IntegerField('Blood Pressure', validators=[InputRequired(), NumberRange(min=0, max=200)])
+    skin_thickness = IntegerField('Skin Thickness', validators=[InputRequired(), NumberRange(min=0, max=100)])
+    insulin = IntegerField('Insulin', validators=[InputRequired(), NumberRange(min=0, max=1000)])
+    bmi = FloatField('BMI', validators=[InputRequired(), NumberRange(min=0.0, max=100.0)])
+    diabetes_pedigree_function = FloatField('Diabetes Pedigree Function', validators=[InputRequired(), NumberRange(min=0.0, max=3.0)])
+    age = IntegerField('Age', validators=[InputRequired(), NumberRange(min=20, max=120)])
+    submit = SubmitField('Predict')
+
 
 class UpdateForm(FlaskForm):
     row_number = IntegerField('Row Number', validators=[InputRequired()])
@@ -445,6 +461,26 @@ def get_sheet_id(spreadsheet_id, sheet_name):
             return sheet['properties']['sheetId']
     return None
 
+# Function to handle missing values and perform min-max normalization
+def preprocess_input_forlogisticregression(data):
+    # Example: Handle missing values (you can customize this)
+    for i in range(len(data)):
+        if data[i] is None or data[i] == '':
+            data[i] = 0  # Impute missing values as 0, or use more advanced methods like median/mean imputation
+
+    # Min-max normalization
+    scaler = MinMaxScaler()
+    data = np.array(data).reshape(1, -1)  # Reshape for scaler (2D array)
+    
+    # Assuming feature ranges for Glucose, BloodPressure, etc. (you can adjust these based on your dataset)
+    scaler.fit([
+        [0, 0, 0, 0, 0.0, 0.0],  # Min values for each feature
+        [200, 200, 100, 1000, 100.0, 3.0]  # Max values for each feature
+    ])
+    
+    normalized_data = scaler.transform(data)
+    
+    return normalized_data
 
 
 @app.route('/')
@@ -530,6 +566,69 @@ def diabetes_form():
         return redirect(url_for('base'))
 
     return render_template('diabetesform.html', form=form)
+
+# Sample logistic regression model (You would load your trained model)
+model = joblib.load('logistic_regression_model.pkl')
+
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    form = PredictionForm()
+    if form.validate_on_submit():
+        age = form.age.data
+        bmi = form.bmi.data
+        
+        # Compute AgeGroup and BMIClass
+        age_group = compute_age_group(age)
+        bmi_class = compute_bmi_class(bmi)
+        
+        # Collect the data from the form
+        data1 = [
+            form.pregnancies.data,
+            form.glucose.data,
+            form.blood_pressure.data,
+            form.skin_thickness.data,
+            form.insulin.data,
+            float(bmi),  # Ensure BMI is a float
+            float(form.diabetes_pedigree_function.data),  # Convert to float
+            int(age),  # Ensure age is an integer
+            0,                # Placeholder for outcome (0 or 1)
+            age_group,        # Computed AgeGroup
+            bmi_class         # Computed BMIClass
+        ]
+
+        data2 = [
+            form.glucose.data,
+            form.blood_pressure.data,
+            form.skin_thickness.data,
+            form.insulin.data,
+            float(bmi),  # Ensure BMI is a float
+            float(form.diabetes_pedigree_function.data)  # Convert to float
+        ]
+        
+        # Preprocess the data
+        processed_data = preprocess_input_forlogisticregression(data2)
+
+        # Make a prediction using the Logistic Regression model
+        prediction = model.predict(processed_data.reshape(1, -1))[0]  # Get the prediction (0 or 1)
+        print(f"Prediction: {prediction}")
+
+        # Convert prediction to native Python int
+        prediction = int(prediction)
+        
+        # Update the outcome variable in data1 with the prediction
+        data1[8] = prediction  # Store the prediction in the correct index
+
+        # Append the complete data1 into the dataset
+        try:
+            append_into_sheet(data1)
+        except Exception as e:
+            print(f"Error appending data: {e}")
+
+        # Send the prediction result to the user
+        result = 'Positive' if prediction == 1 else 'Negative'
+        return render_template('prediction_result.html', result=result)
+
+    return render_template('predictionform.html', form=form)
 
 # Route to update a row
 @app.route('/update', methods=['GET', 'POST'])
